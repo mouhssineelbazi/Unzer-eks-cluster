@@ -1,0 +1,50 @@
+resource "aws_eip" "nat-A" {
+  vpc = true
+
+  lifecycle {
+    create_before_destroy = true
+  }
+  tags = {
+    Name = "${var.env}-eip-A"
+  }
+
+}
+
+resource "aws_nat_gateway" "nat_private_subnet_A" {
+
+  allocation_id = aws_eip.nat-A.id
+  subnet_id = aws_subnet.public_subnet_A.id
+  lifecycle {
+    create_before_destroy = true
+  }
+  tags = {
+    Name = "${var.env}-nat_private_subnet_A"
+  }
+
+}
+
+resource "aws_eip" "nat-B" {
+  vpc = true
+
+  lifecycle {
+    create_before_destroy = true
+  }
+  tags = {
+    Name = "${var.env}-eip-B"
+  }
+
+}
+
+resource "aws_nat_gateway" "nat_private_subnet_B" {
+
+  allocation_id = aws_eip.nat-B.id
+  subnet_id = aws_subnet.public_subnet_B.id
+  lifecycle {
+    create_before_destroy = true
+  }
+  tags = {
+    Name = "${var.env}-nat_private_subnet_B"
+  }
+
+}
+
